@@ -1,4 +1,5 @@
 import uvicorn
+from typing import List
 from sqlalchemy.orm import Session
 from fastapi import FastAPI
 from fastapi import Depends
@@ -57,9 +58,12 @@ async def get_product(id_: int, session: Session = Depends(get_session)):
     return get_product_by_id(id_, session)
 
 
-@app.get("/products/")
+@app.get(
+    "/products/",
+    response_model=List[Product],
+)
 async def get_products_list(offset: int = 0, limit: int = 100, session: Session = Depends(get_session)):
-    return session.query(models.Product).offset(offset).limit(limit).all()
+    return session.query(models.Product).order_by(models.Product.id.asc()).offset(offset).limit(limit).all()
 
 
 if __name__ == "__main__":
