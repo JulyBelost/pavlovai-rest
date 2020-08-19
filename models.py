@@ -5,7 +5,7 @@ from db import Base
 class Product(Base):
     __tablename__ = "products"
 
-    id = Column(Integer, Sequence(), primary_key=True)
+    id = Column(Integer, Sequence("seq1"), primary_key=True)
     name = Column(String)
     description = Column(String)
     price = Column(Float)
