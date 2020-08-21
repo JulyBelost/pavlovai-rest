@@ -8,6 +8,9 @@ import db
 import models
 
 app = FastAPI(title="iPavlov test task")
+table = models.Product.__table__
+metadata = db.Base.metadata
+metadata.create_all(db.engine)
 
 
 def get_session():
@@ -64,12 +67,3 @@ async def get_product(id_: int, session: Session = Depends(get_session)):
 )
 async def get_products_list(offset: int = 0, limit: int = 100, session: Session = Depends(get_session)):
     return session.query(models.Product).order_by(models.Product.id.asc()).offset(offset).limit(limit).all()
-
-
-if __name__ == "__main__":
-
-    table = models.Product.__table__
-    metadata = db.Base.metadata
-    metadata.create_all(db.engine)
-
-    uvicorn.run(app, host="0.0.0.0", port=8000)
