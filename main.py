@@ -1,14 +1,13 @@
-import uvicorn
 from typing import List
 from sqlalchemy.orm import Session
 from fastapi import FastAPI
 from fastapi import Depends
-from schemas import ProductCreate, Product
+from schemas import ProductCreate, Product, ProductUpdate
 import db
 import models
 
 app = FastAPI(title="iPavlov test task")
-table = models.Product.__table__
+
 metadata = db.Base.metadata
 metadata.create_all(db.engine)
 
@@ -41,7 +40,7 @@ async def create_product(product: ProductCreate, session: Session = Depends(get_
     "/products/{id_}",
     response_model=Product,
 )
-async def update_product(product: ProductCreate, id_: int, session: Session = Depends(get_session)):
+async def update_product(product: ProductUpdate, id_: int, session: Session = Depends(get_session)):
     db_product = get_product_by_id(id_, session)
 
     for key, value in product.dict(exclude_unset=True).items():

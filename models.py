@@ -10,6 +10,7 @@ class Product(Base):
     description = Column(String)
     price = Column(Float)
 
-    def __init__(self, name, price):
+    def __init__(self, name, price, description=None):
         self.name = name
         self.price = price
+        self.description = description

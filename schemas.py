@@ -5,7 +5,7 @@ from pydantic import BaseModel
 class ProductBase(BaseModel):
     name: str
     description: Optional[str] = None
-    price: Optional[float] = 0
+    price: float = 0
 
 
 class ProductCreate(ProductBase):
@@ -17,3 +17,9 @@ class Product(ProductBase):
 
     class Config:
         orm_mode = True
+
+
+class ProductUpdate(BaseModel):
+    name: Optional[str]
+    description: Optional[str]
+    price: Optional[float]
